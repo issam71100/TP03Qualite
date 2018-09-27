@@ -54,7 +54,18 @@ public class Money {
 	}
 
 	public void add(Money money) {
-
+		// TODO Auto-generated method stub
+		if(currency.equals(this.currency)) {
+			this.amount += money.getAmount();
+		}
+		else {
+			if(currency.equals("EUR")) {
+				this.amount += money.getAmount()*convertion.unit_Convertion("EUR-USD");
+			}
+			else if(currency.equals("USD")) {
+				this.amount += money.getAmount()*convertion.unit_Convertion("USD-EUR");;
+			}
+		}
 	}
 
 }
