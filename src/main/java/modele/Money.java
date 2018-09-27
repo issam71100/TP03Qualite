@@ -9,6 +9,7 @@ public class Money {
 		// TODO Auto-generated constructor stub
 		this.amount = amount;
 		this.currency= currency;
+		convertion= new Convertion();
 	}
 
 	public int getAmount() {
@@ -53,26 +54,7 @@ public class Money {
 	}
 
 	public void add(Money money) {
-		// TODO Auto-generated method stub
-		if (money.getCurrency().equals(this.currency)) {
-			this.amount += money.getAmount();
-		} else {
-			if (money.getCurrency().equals("EUR")) {
-				try {
-					this.amount += money.getAmount() * convertion.unit_Convertion("EUR-USD");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else if (currency.equals("USD")) {
-				try {
-					this.amount += money.getAmount() * convertion.unit_Convertion("USD-EUR");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+
 	}
 
 }
