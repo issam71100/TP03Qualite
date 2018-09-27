@@ -54,7 +54,7 @@ public class Money {
 	}
 
 	public void add(Money money) {
-		// TODO Auto-generated method stub
+
 	}
 
 }

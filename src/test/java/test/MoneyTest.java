@@ -28,7 +28,6 @@ public class MoneyTest {
 
 	@Before
 	public void setUp() throws Exception {
-		System.out.println("Bonjour");
 		money = new Money(10, "EUR");
 	}
 
