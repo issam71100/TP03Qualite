@@ -3,14 +3,7 @@ build\
 TP03--Gradle_test.iml
 .settings\
 bin\
-gradle\
 out\
-.classpath
-.project
-build.gradle
-gradlew
-gradlew.bat
-settings.gradle
 TP03--Gradle.iml
 TP03--Gradle_main.iml
 TP03--Gradle_test.iml
