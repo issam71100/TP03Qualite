@@ -67,7 +67,6 @@ public class Money {
 			}
 		}
 	}
-
 }
 
 //public Money( int amount , String currency );
