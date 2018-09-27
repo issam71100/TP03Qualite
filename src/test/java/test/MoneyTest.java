@@ -130,6 +130,7 @@ public class MoneyTest {
 		money = new Money(50, "EUR");
 		money.add(m);
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + m.getAmount() / 1.29)));
+		System.out.println((int) (50 + m.getAmount() / 1.29));
 	}
 
 	@Test

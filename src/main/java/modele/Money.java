@@ -55,14 +55,14 @@ public class Money {
 
 	public void add(Money money) {
 		// TODO Auto-generated method stub
-		if(currency.equals(this.currency)) {
+		if(money.getCurrency().equals(this.currency)) {
 			this.amount += money.getAmount();
 		}
 		else {
-			if(currency.equals("EUR")) {
+			if(money.getCurrency().equals("EUR")) {
 				this.amount += money.getAmount()*convertion.unit_Convertion("EUR-USD");
 			}
-			else if(currency.equals("USD")) {
+			else if(money.getCurrency().equals("USD")) {
 				this.amount += money.getAmount()*convertion.unit_Convertion("USD-EUR");;
 			}
 		}
