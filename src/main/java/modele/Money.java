@@ -48,7 +48,7 @@ public class Money {
 				this.amount += amount*convertion.unit_Convertion("EUR-USD");
 			}
 			else if(currency.equals("USD")) {
-				this.amount += amount*1/1.29;
+				this.amount += amount*convertion.unit_Convertion("USD-EUR");;
 			}
 		}
 	}

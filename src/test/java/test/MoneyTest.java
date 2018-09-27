@@ -121,6 +121,7 @@ public class MoneyTest {
 		money = new Money(50, "EUR");
 		money.add(m);
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 + m.getAmount()));
+		System.out.println(50 + m.getAmount());
 	}
 
 	@Test
