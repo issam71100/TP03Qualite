@@ -35,8 +35,8 @@ public class MoneyTest {
 		MockitoAnnotations.initMocks(this);
 		when(conv.unit_Convertion("EUR-USD")).thenReturn(1.29);
 		when(conv.unit_Convertion("USD-EUR")).thenReturn(1 / 1.29);
-		when(conv.unit_Convertion("")).thenThrow(new NullPointerException());
-		when(conv.unit_Convertion(null)).thenThrow(new NullPointerException());	
+		when(conv.unit_Convertion("")).thenThrow(new IllegalArgumentException());
+		when(conv.unit_Convertion(null)).thenThrow(new IllegalArgumentException());
 	}
 
 	@Test
@@ -80,8 +80,8 @@ public class MoneyTest {
 	@Test
 	public void AddOneEuroFromEuroTwoParameters() {
 		money = new Money(50, "EUR");
-		money.add(1, "EUR");
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 + 1));
+    money.add(1, "EUR");
+    Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 + 1));
 	}
 
 	@Test
@@ -146,7 +146,6 @@ public class MoneyTest {
 		money = new Money(50, "USD");
 		money.add(m);	
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + m.getAmount() * conv.unit_Convertion("EUR-USD"))));
-		//System.out.println(50 + m.getAmount() * 1.29);
 
 	}
 
@@ -232,7 +231,7 @@ public class MoneyTest {
 	public void subOneUSDFromUSD() {
 		Money m = new Money(1, "USD");
 		money = new Money(50, "USD");
-		money.sub(m);
+    money.sub(m);
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 - m.getAmount()));
 	}
 

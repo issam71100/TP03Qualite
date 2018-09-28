@@ -13,7 +13,6 @@ public class Money {
 	  if (amount < 0) {
 	    throw new InvalidParameterException();
     }
-
 		this.amount = amount;
 		try {
 			this.setCurrency(currency);
@@ -55,14 +54,15 @@ public class Money {
 
 	public void add(int amount, String currency) throws InvalidParameterException {
 		if (currency.equals(this.currency)) {
-      if ((	this.amount += amount) < 0) {
+      if ((amount) < 0) {
         throw new InvalidParameterException();
       }
-			this.amount += amount;
+
+      this.amount += amount;
 		}
 		else {
 			if(currency.equals("EUR")) {
-        if ((this.amount += amount* 1.29) < 0) {
+        if ((amount* 1.29) < 0) {
           throw new InvalidParameterException();
         }
 				this.amount += amount* 1.29;
@@ -76,19 +76,23 @@ public class Money {
 		}
 	}
 
-	public void add(Money money) {
+	public void add(Money money) throws InvalidParameterException {
 		if(money.getCurrency().equals(this.currency)) {
-			this.amount += money.getAmount();
+      if ((money.getAmount()) < 0) {
+        throw new InvalidParameterException();
+      }
+
+      this.amount += money.getAmount();
 		}
 		else {
 			if(money.getCurrency().equals("EUR")) {
-        if ((this.amount += money.getAmount()*1.29) < 0) {
+        if (( money.getAmount()) < 0) {
           throw new InvalidParameterException();
         }
 				this.amount += money.getAmount()*1.29;
 			}
 			else if(money.getCurrency().equals("USD")) {
-        if ((this.amount += money.getAmount()*1/1.29) < 0) {
+        if (( money.getAmount()) < 0) {
           throw new InvalidParameterException();
         }
 				this.amount += money.getAmount()*1/1.29;
@@ -126,8 +130,9 @@ public class Money {
       if ((this.amount -= money.getAmount()) < 0) {
         throw new InvalidParameterException();
       }
-			this.amount -= money.getAmount();
-		}
+      this.amount -= money.getAmount();
+
+    }
 		else {
 			if(money.getCurrency().equals("EUR")) {
         if ((this.amount -= money.getAmount()*1.29) < 0) {
