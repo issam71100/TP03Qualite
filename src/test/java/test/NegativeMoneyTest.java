@@ -45,73 +45,72 @@ public class NegativeMoneyTest {
   }
 
   @Test(expected = java.security.InvalidParameterException.class)
-  public void AddEuroFromEuroParameters() {
+  public void addEuroFromEuroParameters() {
     money = new Money(10,"EUR");
     money.add(new Money(-11,"EUR"));
   }
 
   @Test(expected = java.security.InvalidParameterException.class)
-  public void AddEuroFromUSDParameters() {
+  public void addEuroFromUSDParameters() {
     money = new Money(10,"USD");
     money.add(new Money(-101,"EUR"));
   }
 
   @Test(expected = java.security.InvalidParameterException.class)
-  public void AddUSDFromEuroParameters() {
+  public void addUSDFromEuroParameters() {
     money = new Money(10,"EUR");
     money.add(new Money(-101,"USD"));
   }
 
 
   @Test(expected = java.security.InvalidParameterException.class)
-  public void AddEuroFromEuroTwoParameters() {
+  public void addEuroFromEuroTwoParameters() {
     money = new Money(10,"EUR");
     money.add(-11,"EUR");
 }
   @Test(expected = java.security.InvalidParameterException.class)
-  public void AddUSDFromEuroTwoParameters() {
+  public void addUSDFromEuroTwoParameters() {
     money = new Money(10,"EUR");
     money.add(-150,"USD");
 }
 
   @Test(expected = java.security.InvalidParameterException.class)
-  public void AddEuroFromUSDTwoParameters() {
+  public void addEuroFromUSDTwoParameters() {
     money = new Money(10,"USD");
     money.add(-150,"EUR");
 }
 ///////////////////////////////////////////////////////////////////
 @Test(expected = java.security.InvalidParameterException.class)
-public void SubEuroFromEuroParameters() {
+public void subEuroFromEuroParameters() {
   money = new Money(10,"EUR");
   money.sub(new Money(100,"EUR"));
 }
 
   @Test(expected = java.security.InvalidParameterException.class)
-  public void SubEuroFromUSDParameters() {
+  public void subEuroFromUSDParameters() {
     money = new Money(10,"USD");
     money.sub(new Money(101,"EUR"));
   }
 
   @Test(expected = java.security.InvalidParameterException.class)
-  public void SubUSDFromEuroParameters() {
+  public void subUSDFromEuroParameters() {
     money = new Money(10,"EUR");
     money.sub(new Money(101,"USD"));
   }
 
-
   @Test(expected = java.security.InvalidParameterException.class)
-  public void SubEuroFromEuroTwoParameters() {
+  public void subEuroFromEuroTwoParameters() {
     money = new Money(10,"EUR");
     money.sub(11,"EUR");
   }
   @Test(expected = java.security.InvalidParameterException.class)
-  public void SubUSDFromEuroTwoParameters() {
+  public void subUSDFromEuroTwoParameters() {
     money = new Money(10,"EUR");
     money.sub(150,"USD");
   }
 
   @Test(expected = java.security.InvalidParameterException.class)
-  public void SubEuroFromUSDTwoParameters() {
+  public void subEuroFromUSDTwoParameters() {
     money = new Money(10,"USD");
     money.sub(150,"EUR");
   }

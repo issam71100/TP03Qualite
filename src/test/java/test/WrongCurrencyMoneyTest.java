@@ -31,10 +31,7 @@ public class WrongCurrencyMoneyTest {
 	}
 
 	@Test(expected = java.security.InvalidParameterException.class)
-	public void ConstructorTestCurrencyInvalidParameter() throws Exception {
+	public void ConstructorTestCurrencyInvalidParameter(){
 		money = new Money(10, "ERI");
 	}
-	
-	
-
 }

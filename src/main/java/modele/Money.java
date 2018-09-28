@@ -13,11 +13,11 @@ public class Money {
 	  if (amount < 0) {
 	    throw new InvalidParameterException();
     }
+
 		this.amount = amount;
 		try {
 			this.setCurrency(currency);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -37,8 +37,8 @@ public class Money {
 		return currency;
 	}
 
-	public void setCurrency(String currency) throws Exception {
-		if (currency == "EUR" || currency == "USD") {
+	public void setCurrency(String currency) throws InvalidParameterException {
+		if (currency.equals("EUR") || currency.equals("USD")) {
 			this.currency = currency;
 		} else {
 			throw new InvalidParameterException();
