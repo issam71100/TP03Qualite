@@ -4,7 +4,7 @@ public class Money {
 	private int amount;
 	private String currency;
 	private Convertion convertion;
-	
+
 	public Money(int amount, String currency) {
 		// TODO Auto-generated constructor stub
 		this.amount = amount;
@@ -54,15 +54,21 @@ public class Money {
 	}
 
 	public void add(Money money) {
-		// TODO Auto-generated method stub
+
+    // TODO Auto-generated method stub
 		if(money.getCurrency().equals(this.currency)) {
 			this.amount += money.getAmount();
 		}
 		else {
-			if(money.getCurrency().equals("EUR")) {
-				this.amount += money.getAmount()*convertion.unit_Convertion("EUR-USD");
-			}
+
+      if(money.getCurrency().equals("EUR")) {
+
+        this.amount += money.getAmount()*convertion.unit_Convertion("EUR-USD");
+        System.out.println(money.getAmount());
+
+      }
 			else if(money.getCurrency().equals("USD")) {
+			  System.out.println("salutttt");
 				this.amount += money.getAmount()*convertion.unit_Convertion("USD-EUR");;
 			}
 		}

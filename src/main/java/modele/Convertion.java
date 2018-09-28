@@ -7,6 +7,6 @@ public class Convertion {
 //		} else {
 //			return 1 / 1.29;
 //		}
-		return 0.0;
+		return 10.0;
 	}
 }
