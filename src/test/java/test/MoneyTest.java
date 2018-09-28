@@ -1,68 +1,56 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import java.security.InvalidParameterException;
-
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsNull;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+//import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import modele.Convertion;
 import modele.Money;
 import static org.mockito.Mockito.*;
 
 public class MoneyTest {
-
 	@Mock
-	Convertion conv;
-
+	Convertion convertion;
 	@InjectMocks
 	private Money money;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		money = new Money(10, "EUR");
 		MockitoAnnotations.initMocks(this);
-		when(conv.unit_Convertion("EUR-USD")).thenReturn(1.29);
-		when(conv.unit_Convertion("USD-EUR")).thenReturn(1 / 1.29);
-		when(conv.unit_Convertion("")).thenThrow(new IllegalArgumentException());
-		when(conv.unit_Convertion(null)).thenThrow(new IllegalArgumentException());
+
+		when(convertion.unit_Convertion("EUR-USD")).thenReturn(1.29);
+		when(convertion.unit_Convertion("USD-EUR")).thenReturn(1 / 1.29);
+		when(convertion.unit_Convertion("")).thenThrow(new IllegalArgumentException());
+		when(convertion.unit_Convertion(" ")).thenThrow(new IllegalArgumentException());
+		when(convertion.unit_Convertion(null)).thenThrow(new IllegalArgumentException());
 	}
 
 	@Test
-	public void ConstructorTestBothParametersNotNull() {
+	public void constructorTestBothParametersNotNull() {
 		money = new Money(10, "EUR");
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo(10));
 		Assert.assertThat(money.getCurrency(), IsEqual.equalTo("EUR"));
 	}
 
 	@Test(expected = java.security.InvalidParameterException.class)
-	public void ConstructorTestCurrencyParametersNull() throws Exception {
+	public void constructorTestCurrencyParametersNull() throws Exception {
 		money = new Money(10, null);
-		if (money.getCurrency() == null) {
-			throw new InvalidParameterException();
-		}
-		// Assert.assertThat(money.getDevise(),IsNull.nullValue());
 	}
 
 	@Test
-	public void TestAmount() {
+	public void testAmount() {
 		money = new Money(10, "EUR");
 		Assert.assertThat(money.amount(), IsEqual.equalTo(10));
 	}
 
 	@Test
-	public void TestCurrency() {
+	public void testCurrency() {
 		money = new Money(10, "EUR");
 		Assert.assertThat(money.currency(), IsEqual.equalTo("EUR"));
 	}
@@ -71,53 +59,53 @@ public class MoneyTest {
 	 * Test de la methode Money.add(int amount , String ncurrency );
 	 */
 	@Test
-	public void AddZeroUnitTwoParameters() {
+	public void addZeroUnitTwoParameters() {
 		money = new Money(50, "EUR");
 		money.add(0, "EUR");
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50));
 	}
 
 	@Test
-	public void AddOneEuroFromEuroTwoParameters() {
+	public void addOneEuroFromEuroTwoParameters() {
 		money = new Money(50, "EUR");
-    money.add(1, "EUR");
-    Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 + 1));
+		money.add(1, "EUR");
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 + 1));
 	}
 
 	@Test
-	public void AddOneUSDFromEUROTwoParameters() {
+	public void addOneUSDFromEUROTwoParameters() {
 		money = new Money(50, "EUR");
 		money.add(1, "USD");
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + 1* conv.unit_Convertion("USD-EUR"))));
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + 1 * convertion.unit_Convertion("USD-EUR"))));
 	}
 
 	@Test
-	public void AddOneUSDFromUSDTwoParameters() {
+	public void addOneUSDFromUSDTwoParameters() {
 		money = new Money(50, "USD");
 		money.add(1, "USD");
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 + 1));
 	}
 
 	@Test
-	public void AddOneEuroFromUSDTwoParameters() {
+	public void addOneEuroFromUSDTwoParameters() {
 		money = new Money(50, "USD");
 		money.add(1, "EUR");
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + 1 * conv.unit_Convertion("EUR-USD"))));
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + 1 * convertion.unit_Convertion("EUR-USD"))));
 	}
 
 	/**
 	 * Test de la methode Money.add(Money money);
 	 */
 	@Test
-	public void AddZeroUnit() {
-		Money m = new Money(0, "USD");
+	public void addZeroUnit() {
+		Money m = new Money(0, "EUR");
 		money = new Money(50, "EUR");
 		money.add(m);
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50));
 	}
 
 	@Test
-	public void AddOneEuroFromEuro() {
+	public void addOneEuroFromEuro() {
 		Money m = new Money(1, "EUR");
 		money = new Money(50, "EUR");
 		money.add(m);
@@ -125,15 +113,16 @@ public class MoneyTest {
 	}
 
 	@Test
-	public void AddOneUSDFromEURO() {
+	public void addOneUSDFromEURO() {
 		Money m = new Money(1, "USD");
 		money = new Money(50, "EUR");
 		money.add(m);
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + m.getAmount() * conv.unit_Convertion("USD-EUR"))));
+		Assert.assertThat(money.getAmount(),
+				IsEqual.equalTo((int) (50 + m.getAmount() * convertion.unit_Convertion("USD-EUR"))));
 	}
 
 	@Test
-	public void AddOneUSDFromUSD() {
+	public void addOneUSDFromUSD() {
 		Money m = new Money(1, "USD");
 		money = new Money(50, "USD");
 		money.add(m);
@@ -141,11 +130,12 @@ public class MoneyTest {
 	}
 
 	@Test
-	public void AddOneEuroFromUSD() {
+	public void addOneEuroFromUSD() {
 		Money m = new Money(1, "EUR");
 		money = new Money(50, "USD");
-		money.add(m);	
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + m.getAmount() * conv.unit_Convertion("EUR-USD"))));
+		money.add(m);
+		Assert.assertThat(money.getAmount(),
+				IsEqual.equalTo((int) (50 + m.getAmount() * convertion.unit_Convertion("EUR-USD"))));
 
 	}
 
@@ -153,18 +143,14 @@ public class MoneyTest {
 	 * Test Chaîne Currency
 	 */
 	@Test(expected = java.security.InvalidParameterException.class)
-	public void ConstructorTestCurrencyParametersNotEmpty() throws Exception {
+	public void constructorTestCurrencyParametersNotEmpty() throws Exception {
 		money = new Money(50, "");
-		if (money.getCurrency() == "") {
-			throw new InvalidParameterException();
-		}
-		// Assert.assertThat(money.getCurrency(),IsEqual.equalTo(""));
 	}
-	
+
 	/**
 	 * Test de la methode Money.sub(int amount, String currency);
 	 */
-	
+
 	@Test
 	public void subZeroUnitTwoParameters() {
 		money = new Money(50, "EUR");
@@ -183,7 +169,7 @@ public class MoneyTest {
 	public void subOneUSDFromEUROTwoParameters() {
 		money = new Money(50, "EUR");
 		money.sub(1, "USD");
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 - 1* conv.unit_Convertion("USD-EUR"))));
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 - 1 * convertion.unit_Convertion("USD-EUR"))));
 	}
 
 	@Test
@@ -197,7 +183,7 @@ public class MoneyTest {
 	public void subOneEuroFromUSDTwoParameters() {
 		money = new Money(50, "USD");
 		money.sub(1, "EUR");
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 - 1 * conv.unit_Convertion("EUR-USD"))));
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 - 1 * convertion.unit_Convertion("EUR-USD"))));
 	}
 
 	/**
@@ -205,7 +191,7 @@ public class MoneyTest {
 	 */
 	@Test
 	public void subZeroUnit() {
-		Money m = new Money(0, "USD");
+		Money m = new Money(0, "EUR");
 		money = new Money(50, "EUR");
 		money.sub(m);
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50));
@@ -224,14 +210,15 @@ public class MoneyTest {
 		Money m = new Money(1, "USD");
 		money = new Money(50, "EUR");
 		money.sub(m);
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 - m.getAmount() * conv.unit_Convertion("USD-EUR"))));
+		Assert.assertThat(money.getAmount(),
+				IsEqual.equalTo((int) (50 - m.getAmount() * convertion.unit_Convertion("USD-EUR"))));
 	}
 
 	@Test
 	public void subOneUSDFromUSD() {
 		Money m = new Money(1, "USD");
 		money = new Money(50, "USD");
-    money.sub(m);
+		money.sub(m);
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 - m.getAmount()));
 	}
 
@@ -239,10 +226,11 @@ public class MoneyTest {
 	public void subOneEuroFromUSD() {
 		Money m = new Money(1, "EUR");
 		money = new Money(50, "USD");
-		money.sub(m);	
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 - m.getAmount() * conv.unit_Convertion("EUR-USD"))));
+		money.sub(m);
+		Assert.assertThat(money.getAmount(),
+				IsEqual.equalTo((int) (50 - m.getAmount() * convertion.unit_Convertion("EUR-USD"))));
 	}
-	
+
 /// AmountNegatif
 }
 /**
