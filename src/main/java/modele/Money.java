@@ -7,9 +7,12 @@ public class Money {
 	private int amount;
 	private String currency;
 	private Convertion convertion;
+	
+	public Money(int amount, String currency) throws InvalidParameterException {
 
-	public Money(int amount, String currency) {
-		// TODO Auto-generated constructor stub
+	  if (amount < 0) {
+	    throw new InvalidParameterException();
+    }
 		this.amount = amount;
 		try {
 			this.setCurrency(currency);
@@ -23,7 +26,10 @@ public class Money {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(int amount) throws InvalidParameterException {
+    if (amount < 0) {
+      throw new InvalidParameterException();
+    }
 		this.amount = amount;
 	}
 
@@ -40,76 +46,101 @@ public class Money {
 	}
 
 	public int amount() {
-		// TODO Auto-generated method stub
 		return this.amount;
 	}
 
 	public String currency() {
-		// TODO Auto-generated method stub
 		return this.currency;
 	}
 
-	public void add(int amount, String currency) {
-		// TODO Auto-generated method stub
+	public void add(int amount, String currency) throws InvalidParameterException {
 		if (currency.equals(this.currency)) {
+      if ((	this.amount += amount) < 0) {
+        throw new InvalidParameterException();
+      }
 			this.amount += amount;
-		} else {
-			if (currency.equals("EUR")) {
-				this.amount += amount * 1.29;
-			} else if (currency.equals("USD")) {
-				this.amount += amount * 1 / 1.29;
+		}
+		else {
+			if(currency.equals("EUR")) {
+        if ((this.amount += amount* 1.29) < 0) {
+          throw new InvalidParameterException();
+        }
+				this.amount += amount* 1.29;
+			}
+			else if(currency.equals("USD")) {
+        if ((this.amount += amount*1/1.29) < 0) {
+          throw new InvalidParameterException();
+        }
+				this.amount += amount*1/1.29;
 			}
 		}
 	}
 
 	public void add(Money money) {
-		// TODO Auto-generated method stub
-		if (money.getCurrency().equals(this.currency)) {
+		if(money.getCurrency().equals(this.currency)) {
 			this.amount += money.getAmount();
-		} else {
-			if (money.getCurrency().equals("EUR")) {
-				this.amount += money.getAmount() * 1.29;
-			} else if (money.getCurrency().equals("USD")) {
-				this.amount += money.getAmount() * 1 / 1.29;
+		}
+		else {
+			if(money.getCurrency().equals("EUR")) {
+        if ((this.amount += money.getAmount()*1.29) < 0) {
+          throw new InvalidParameterException();
+        }
+				this.amount += money.getAmount()*1.29;
+			}
+			else if(money.getCurrency().equals("USD")) {
+        if ((this.amount += money.getAmount()*1/1.29) < 0) {
+          throw new InvalidParameterException();
+        }
+				this.amount += money.getAmount()*1/1.29;
 			}
 		}
 	}
 
 	/* Methodes Sub */
 
-	public void sub(int amount, String currency) {
-		// TODO Auto-generated method stub
+	public void sub(int amount, String currency) throws InvalidParameterException{
 		if (currency.equals(this.currency)) {
+      if ((this.amount -= amount) < 0) {
+        throw new InvalidParameterException();
+      }
 			this.amount -= amount;
-		} else {
-			if (currency.equals("EUR")) {
-				this.amount -= amount * 1.29;
-			} else if (currency.equals("USD")) {
-				this.amount -= amount * 1 / 1.29;
+		}
+		else {
+			if(currency.equals("EUR")) {
+        if ((this.amount -= amount*1.29) < 0) {
+          throw new InvalidParameterException();
+        }
+				this.amount -= amount*1.29;
+			}
+			else if(currency.equals("USD")) {
+        if ((this.amount -= amount*1/1.29) < 0) {
+          throw new InvalidParameterException();
+        }
+				this.amount -= amount*1/1.29;
 			}
 		}
 	}
 
-	public void sub(Money money) {
-		// TODO Auto-generated method stub
+	public void sub(Money money) throws InvalidParameterException {
 		if (money.getCurrency().equals(this.currency)) {
+      if ((this.amount -= money.getAmount()) < 0) {
+        throw new InvalidParameterException();
+      }
 			this.amount -= money.getAmount();
-		} else {
-			if (money.getCurrency().equals("EUR")) {
-				this.amount -= money.getAmount() * 1.29;
-			} else if (money.getCurrency().equals("USD")) {
-				this.amount -= money.getAmount() * 1 / 1.29;
+		}
+		else {
+			if(money.getCurrency().equals("EUR")) {
+        if ((this.amount -= money.getAmount()*1.29) < 0) {
+          throw new InvalidParameterException();
+        }
+				this.amount -= money.getAmount()*1.29;
+			}
+			else if(money.getCurrency().equals("USD")) {
+        if ((this.amount -= money.getAmount()*1/1.29) < 0) {
+          throw new InvalidParameterException();
+        }
+				this.amount -= money.getAmount()*1/1.29;
 			}
 		}
 	}
 }
-
-//public Money( int amount , String currency );
-
-//public int amount ( );
-
-//public String currency ( );
-
-//public void add (Money m);
-
-//public void add (int namount , String ncurrency );
