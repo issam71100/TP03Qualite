@@ -34,33 +34,86 @@ public class NegativeMoneyTest {
     Mockito.when(conv.unit_Convertion(null)).thenThrow(new NullPointerException());
   }
 
-  @Test
+  @Test(expected = java.security.InvalidParameterException.class)
   public void ConstructorAmountInferiorTo0() {
     money = new Money(-1, "EUR");
-    Assert.assertThat(money.getAmount(),lessThan(0));
   }
-  @Test
-  public void AddMoneyOneParameters() {
-
-
-  }
-  @Test
-  public void AddMoneyTwoParameters() {
-
-
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void setMoney() {
+    money = new Money(0, "EUR");
+    money.setAmount(-1);
   }
 
-  @Test
-  public void SubMoneyOneParameters() {
-
-
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void AddEuroFromEuroParameters() {
+    money = new Money(10,"EUR");
+    money.add(new Money(-11,"EUR"));
   }
 
-  @Test
-  public void SubMoneyTwoParameters() {
-
-
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void AddEuroFromUSDParameters() {
+    money = new Money(10,"USD");
+    money.add(new Money(-101,"EUR"));
   }
 
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void AddUSDFromEuroParameters() {
+    money = new Money(10,"EUR");
+    money.add(new Money(-101,"USD"));
+  }
+
+
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void AddEuroFromEuroTwoParameters() {
+    money = new Money(10,"EUR");
+    money.add(-11,"EUR");
+}
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void AddUSDFromEuroTwoParameters() {
+    money = new Money(10,"EUR");
+    money.add(-150,"USD");
+}
+
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void AddEuroFromUSDTwoParameters() {
+    money = new Money(10,"USD");
+    money.add(-150,"EUR");
+}
+///////////////////////////////////////////////////////////////////
+@Test(expected = java.security.InvalidParameterException.class)
+public void SubEuroFromEuroParameters() {
+  money = new Money(10,"EUR");
+  money.sub(new Money(100,"EUR"));
+}
+
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void SubEuroFromUSDParameters() {
+    money = new Money(10,"USD");
+    money.sub(new Money(101,"EUR"));
+  }
+
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void SubUSDFromEuroParameters() {
+    money = new Money(10,"EUR");
+    money.sub(new Money(101,"USD"));
+  }
+
+
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void SubEuroFromEuroTwoParameters() {
+    money = new Money(10,"EUR");
+    money.sub(11,"EUR");
+  }
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void SubUSDFromEuroTwoParameters() {
+    money = new Money(10,"EUR");
+    money.sub(150,"USD");
+  }
+
+  @Test(expected = java.security.InvalidParameterException.class)
+  public void SubEuroFromUSDTwoParameters() {
+    money = new Money(10,"USD");
+    money.sub(150,"EUR");
+  }
 }
 
