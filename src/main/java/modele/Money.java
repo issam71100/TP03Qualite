@@ -107,7 +107,7 @@ public class Money {
 	/* Methodes Sub */
 
 	public void sub(int amount, String currency) throws InvalidParameterException {
-		if (currency.equals("EUR") || currency.equals("USD")) {
+		if ((currency.equals("EUR") || currency.equals("USD")) && (this.amount - amount)>=0){
 			if (currency.equals(this.currency)) {
 				if (amount < 0) {
 					throw new InvalidParameterException();
@@ -132,7 +132,7 @@ public class Money {
 	}
 
 	public void sub(Money money) throws InvalidParameterException {
-		if (money.getCurrency().equals("EUR") || money.getCurrency().equals("USD")) {
+		if ((money.getCurrency().equals("EUR") || money.getCurrency().equals("USD")) && (this.amount - money.getAmount()>=0)) {
 			if (money.getCurrency().equals(this.currency)) {
 				if (money.getAmount() < 0) {
 					throw new InvalidParameterException();
@@ -141,12 +141,12 @@ public class Money {
 
 			} else {
 				if (money.getCurrency().equals("EUR")) {
-					if ((this.amount -= money.getAmount() * 1.29) < 0) {
+					if (money.getAmount() < 0) {
 						throw new InvalidParameterException();
 					}
 					this.amount -= money.getAmount() * 1.29;
 				} else if (money.getCurrency().equals("USD")) {
-					if ((this.amount -= money.getAmount() * 1 / 1.29) < 0) {
+					if (money.getAmount() < 0) {
 						throw new InvalidParameterException();
 					}
 					this.amount -= money.getAmount() * 1 / 1.29;
