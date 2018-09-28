@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -35,7 +36,7 @@ public class MoneyTest {
 		when(conv.unit_Convertion("EUR-USD")).thenReturn(1.29);
 		when(conv.unit_Convertion("USD-EUR")).thenReturn(1 / 1.29);
 		when(conv.unit_Convertion("")).thenThrow(new NullPointerException());
-		when(conv.unit_Convertion(null)).thenThrow(new NullPointerException());
+		when(conv.unit_Convertion(null)).thenThrow(new NullPointerException());	
 	}
 
 	@Test
@@ -87,7 +88,7 @@ public class MoneyTest {
 	public void AddOneUSDFromEUROTwoParameters() {
 		money = new Money(50, "EUR");
 		money.add(1, "USD");
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + 1 / 1.29)));
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + 1* conv.unit_Convertion("USD-EUR"))));
 	}
 
 	@Test
@@ -101,7 +102,7 @@ public class MoneyTest {
 	public void AddOneEuroFromUSDTwoParameters() {
 		money = new Money(50, "USD");
 		money.add(1, "EUR");
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + 1 * 1.29)));
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + 1 * conv.unit_Convertion("EUR-USD"))));
 	}
 
 	/**
@@ -121,7 +122,6 @@ public class MoneyTest {
 		money = new Money(50, "EUR");
 		money.add(m);
 		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 + m.getAmount()));
-		System.out.println(50 + m.getAmount());
 	}
 
 	@Test
@@ -129,8 +129,7 @@ public class MoneyTest {
 		Money m = new Money(1, "USD");
 		money = new Money(50, "EUR");
 		money.add(m);
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + m.getAmount() / 1.29)));
-		System.out.println((int) (50 + m.getAmount() / 1.29));
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + m.getAmount() * conv.unit_Convertion("USD-EUR"))));
 	}
 
 	@Test
@@ -145,8 +144,10 @@ public class MoneyTest {
 	public void AddOneEuroFromUSD() {
 		Money m = new Money(1, "EUR");
 		money = new Money(50, "USD");
-		money.add(m);
-		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + m.getAmount() * 1.29)));
+		money.add(m);	
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 + m.getAmount() * conv.unit_Convertion("EUR-USD"))));
+		//System.out.println(50 + m.getAmount() * 1.29);
+
 	}
 
 	/**
@@ -160,6 +161,89 @@ public class MoneyTest {
 		}
 		// Assert.assertThat(money.getCurrency(),IsEqual.equalTo(""));
 	}
+	
+	/**
+	 * Test de la methode Money.sub(int amount, String currency);
+	 */
+	
+	@Test
+	public void subZeroUnitTwoParameters() {
+		money = new Money(50, "EUR");
+		money.sub(0, "EUR");
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50));
+	}
+
+	@Test
+	public void subOneEuroFromEuroTwoParameters() {
+		money = new Money(50, "EUR");
+		money.sub(1, "EUR");
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 - 1));
+	}
+
+	@Test
+	public void subOneUSDFromEUROTwoParameters() {
+		money = new Money(50, "EUR");
+		money.sub(1, "USD");
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 - 1* conv.unit_Convertion("USD-EUR"))));
+	}
+
+	@Test
+	public void subOneUSDFromUSDTwoParameters() {
+		money = new Money(50, "USD");
+		money.sub(1, "USD");
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 - 1));
+	}
+
+	@Test
+	public void subOneEuroFromUSDTwoParameters() {
+		money = new Money(50, "USD");
+		money.sub(1, "EUR");
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 - 1 * conv.unit_Convertion("EUR-USD"))));
+	}
+
+	/**
+	 * Test de la methode Money.sub(Money money);
+	 */
+	@Test
+	public void subZeroUnit() {
+		Money m = new Money(0, "USD");
+		money = new Money(50, "EUR");
+		money.sub(m);
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50));
+	}
+
+	@Test
+	public void subOneEuroFromEuro() {
+		Money m = new Money(1, "EUR");
+		money = new Money(50, "EUR");
+		money.sub(m);
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 - m.getAmount()));
+	}
+
+	@Test
+	public void subOneUSDFromEURO() {
+		Money m = new Money(1, "USD");
+		money = new Money(50, "EUR");
+		money.sub(m);
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 - m.getAmount() * conv.unit_Convertion("USD-EUR"))));
+	}
+
+	@Test
+	public void subOneUSDFromUSD() {
+		Money m = new Money(1, "USD");
+		money = new Money(50, "USD");
+		money.sub(m);
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo(50 - m.getAmount()));
+	}
+
+	@Test
+	public void subOneEuroFromUSD() {
+		Money m = new Money(1, "EUR");
+		money = new Money(50, "USD");
+		money.sub(m);	
+		Assert.assertThat(money.getAmount(), IsEqual.equalTo((int) (50 - m.getAmount() * conv.unit_Convertion("EUR-USD"))));
+	}
+	
 /// AmountNegatif
 }
 /**
